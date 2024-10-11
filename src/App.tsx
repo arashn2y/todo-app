@@ -10,7 +10,9 @@ function App() {
           <h1 className="text-4xl">Simple Todo List</h1>
         </div>
       <main className="flex flex-col  items-center row-span-8">
-        <CreateTodoSection />
+        <CreateTodoSection onCreateTodo={(data) => {
+          console.log(data)
+        }} />
         <TodoList />
       </main>
     </div>

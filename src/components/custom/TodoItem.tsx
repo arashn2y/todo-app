@@ -3,17 +3,8 @@ import Priority from "../../types/priorityEnum";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { IoTrashBinOutline } from "react-icons/io5";
 import { FaPencilAlt } from "react-icons/fa";
-
-const getPillBackground = (priority: Priority): string => {
-    switch (priority) {
-        case Priority.HIGH:
-            return "bg-red-500 text-white ";
-        case Priority.MEDIUM:
-            return "bg-yellow-500 text-white";
-        case Priority.LOW:
-            return "bg-blue-500 text-white";
-    }
-}
+import { PriorityPill } from "./PriorityPill";
+import DateView from "./DateView";
 
 const TodoItem = (props: Todo) => {
     const { title, expireDate, priority } = props;
@@ -29,22 +20,14 @@ const TodoItem = (props: Todo) => {
                         title
                     }
                 </div>
-                <div className="text-gray-500">
-                    {
-                        expireDate.toLocaleDateString()
-                    }
-                </div>
+                <DateView date={expireDate} />
             </div>
             <div>
                 <div className="flex flex-row">
                     <IoTrashBinOutline color="red" size={22} />
                     <FaPencilAlt className="ml-2" color="gray" size={20} />
                 </div>
-                <div className={"p-1 mt-2 rounded-xl text-center " + getPillBackground(priority)}>
-                    {
-                        priority
-                    }
-                </div>
+                <PriorityPill priority={priority} />
             </div>
         </div>
     )
