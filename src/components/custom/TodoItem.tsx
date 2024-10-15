@@ -3,28 +3,32 @@ import { FaPencilAlt } from "react-icons/fa";
 import Todo from "../../types/todo";
 import Checkbox from "./Checkbox";
 import Badge from "./Badge";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface Props {
-  onStatusChange: (expireDate: Date, status: boolean) => void;
+  // Called when the status of this todo changes
+  onStatusChange: (creationDate: Date, status: boolean) => void;
+  // Todo data
   todo: Todo;
 }
 
 const TodoItem = (props: Props) => {
   const { title, expireDate, priority , creationDate, done} = props.todo;
-  const [status, setStatus] = useState<boolean>(false);
+  // The initial value of this status variable depends on the data of the todo
+  const [status, setStatus] = useState<boolean>(done);
 
-  useEffect(() => {
-    console.log("Valore di done" + done);
-    setStatus(done);
-  }, [done, setStatus])
+  /**
+   *  Function called when the checkbox gets updated
+   * @param newStatus {boolean} the new status of the checkbox
+   * */ 
+  const handleCheckboxChange = (newStatus: boolean) => {
+    setStatus(!newStatus);
+    props.onStatusChange(creationDate, newStatus);
+  };
 
   return (
     <div className="relative shadow flex flex-row p-6 border-2 rounded-xl w-full">
-      <Checkbox onCheckboxChange={(newStatus) => {
-        setStatus(!newStatus);
-        props.onStatusChange(creationDate, newStatus as any);
-      } } currentValue={status} />
+      <Checkbox onCheckboxChange={handleCheckboxChange as any} currentValue={status || done} />
       <div className="ml-3 grow flex flex-col items-start justify-start">
         <h1 className="font-bold text-xl">{title}</h1>
         <div className="text-gray-500">{expireDate.toLocaleDateString()}</div>
