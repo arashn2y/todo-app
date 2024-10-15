@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CreateTodoSection from "./components/sections/CreateTodoSection";
 import Header from "./components/sections/Header";
 import TodoList from "./components/sections/TodoList";

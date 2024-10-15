@@ -57,12 +57,11 @@ const TodoList = (props: TodoListProps) => {
         <div className="text-m text-gray-500">
           To be completed
         </div>
-
         <div className="w-full h-[60%] overflow-y-auto p-5 mt-8 flex flex-col space-y-7">
-          {getSortedTodos(todoArray.filter(todo => {
+          { getSortedTodos(todoArray.filter(todo => {
             /*
             if (todo.done === false) return true;
-            return false;*/
+            return false; */
             return !todo.done;
           }), orderPolicy).map(todo => {
             return <TodoItem onStatusChange={props.onStatusChange} key={todo.creationDate.toISOString()} todo={todo} />;
