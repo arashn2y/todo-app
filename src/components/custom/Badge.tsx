@@ -1,4 +1,4 @@
-import Priority from "../../types/priorityEnum";
+import {Priority} from "../../types/priorityEnum";
 
 interface BadgeProps {
   priority: Priority;
@@ -15,6 +15,8 @@ function Badge(props: BadgeProps) {
         return "bg-yellow-500 text-white";
       case Priority.LOW:
         return "bg-blue-500 text-white";
+        default:
+          return "";
     }
   };
   return <div className={"absolute -top-4 -right-2 py-1 px-2 text-sm rounded-lg text-center " + getPillBackground(priority)}>{priority}</div>;

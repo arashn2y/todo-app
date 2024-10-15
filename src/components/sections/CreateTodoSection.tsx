@@ -2,7 +2,7 @@ import { useState } from "react";
 import Input from "../custom/Input";
 import Label from "../custom/Label";
 import Select from "../custom/Select";
-import Priority from "../../types/priorityEnum";
+import {Priority} from "../../types/priorityEnum";
 import DatePicker from "../custom/DatePicker";
 import Button from "../custom/Button";
 import Todo from "../../types/todo";

@@ -15,7 +15,22 @@ function App() {
         <CreateTodoSection onAddNewTodo={newTodo => {
           setTodos([... todos, newTodo])
         }} />
-        <TodoList todoArray={todos} />
+        <TodoList onStatusChange={(creationDate, status) => {
+          console.log(creationDate);
+          console.log(status);
+
+          // Create a clone of the array to edit
+          let todosClone = [...todos];
+          for (const todo of todosClone) {
+            if(todo.creationDate === creationDate) {
+              console.log("Update statusx");
+              // This is the right element to edit
+              todo.done = status;
+            }
+          }
+
+          setTodos(todosClone);
+        }} todoArray={todos} />
       </main>
     </div>
   );
