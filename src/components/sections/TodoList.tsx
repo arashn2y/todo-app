@@ -12,6 +12,7 @@ interface TodoListProps {
 
   // Pass to the parent, does not actually use it
   onStatusChange: (expireDate: Date, status: boolean) => void;
+  deleteTodo: (creationDate: Date) => void;
 }
 
 /**
@@ -44,7 +45,7 @@ function getSortedTodos(todoArray: Todo[], policyToOrder: OrderPolicy): Todo[] {
 }
 
 const TodoList = (props: TodoListProps) => {
-  const { className, todoArray } = props;
+  const { className, todoArray, deleteTodo } = props;
   const [orderPolicy, setOrderPolicy] = useState<OrderPolicy>(OrderPolicy.EXPIRE_DATE);
 
   return (
@@ -74,7 +75,7 @@ const TodoList = (props: TodoListProps) => {
             }),
             orderPolicy
           ).map(todo => {
-            return <TodoItem onStatusChange={props.onStatusChange} key={todo.creationDate.toISOString()} todo={todo} />;
+            return <TodoItem onStatusChange={props.onStatusChange} key={todo.creationDate.toISOString()} todo={todo} deleteTodo={deleteTodo} />;
           })}
         </div>
       </div>
@@ -89,7 +90,7 @@ const TodoList = (props: TodoListProps) => {
           }),
           orderPolicy
         ).map(todo => {
-          return <TodoItem onStatusChange={props.onStatusChange} key={todo.creationDate.toISOString()} todo={todo} />;
+          return <TodoItem onStatusChange={props.onStatusChange} key={todo.creationDate.toISOString()} todo={todo} deleteTodo={deleteTodo} />;
         })}
       </div>
     </div>

@@ -10,17 +10,19 @@ interface Props {
   onStatusChange: (creationDate: Date, status: boolean) => void;
   // Todo data
   todo: Todo;
+  deleteTodo: (creationDate: Date) => void;
 }
 
 const TodoItem = (props: Props) => {
-  const { title, expireDate, priority , creationDate, done} = props.todo;
+  const { deleteTodo } = props;
+  const { title, expireDate, priority, creationDate, done } = props.todo;
   // The initial value of this status variable depends on the data of the todo
   const [status, setStatus] = useState<boolean>(done);
 
   /**
    *  Function called when the checkbox gets updated
    * @param newStatus {boolean} the new status of the checkbox
-   * */ 
+   * */
   const handleCheckboxChange = (newStatus: boolean) => {
     setStatus(!newStatus);
     props.onStatusChange(creationDate, newStatus);
@@ -34,8 +36,8 @@ const TodoItem = (props: Props) => {
         <div className="text-gray-500">{expireDate.toLocaleDateString()}</div>
       </div>
       <div className="flex flex-row">
-        <IoTrashBinOutline className="cursor-pointer" color="red" size={20} />
-        <FaPencilAlt className="ml-2 cursor-pointer" color="gray" size={20} />
+        <IoTrashBinOutline className="cursor-pointer" color="red" size={20} onClick={() => deleteTodo(creationDate)} />
+        <FaPencilAlt className="ml-2 cursor-pointer" color="gray" size={20} onClick={() => console.log("creationDate:", creationDate)} />
       </div>
 
       <Badge priority={priority} />

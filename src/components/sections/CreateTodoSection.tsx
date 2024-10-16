@@ -13,10 +13,6 @@ interface Props {
 }
 
 const CreateTodoSection = (props: Props) => {
-  // const [todoTitle, setTitle] = useState<string>("");
-  // const [date, setDate] = useState<Date>(new Date());
-  // const [priority, setPriority] = useState<Priority>(Priority.HIGH);
-
   const [todo, setTodo] = useState<Todo>({
     title: "",
     expireDate: new Date(),
@@ -88,7 +84,7 @@ const CreateTodoSection = (props: Props) => {
           }}
         />
       </div>
-      <Button disabled={todo.title.trim().length >= 4 ? false : true} title="Add todo" className="w-72 lg:w-96" onClick={onCreateTodoClick} />
+      <Button disabled={todo.title.trim().length >= 4 ? false : true} title="Add todo" className="w-72 lg:w-96 mt-5" onClick={onCreateTodoClick} />
     </div>
   );
 };
