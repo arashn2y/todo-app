@@ -53,38 +53,35 @@ const CreateTodoSection = (props: Props) => {
     });
   };
 
-  const setValueGlobally = (field: string, value: string) => {};
+  const setValueGlobally = (field: string, value: string | Date | Priority) => {
+    setTodo(prevState => {
+      return {
+        ...prevState,
+        [field]: value
+      };
+    });
+  };
+
+  const setValueGloballyByType = <T extends keyof Todo>(field: T, value: Todo[T]) => {
+    setTodo(prevState => {
+      return {
+        ...prevState,
+        [field]: value
+      };
+    });
+  };
 
   return (
     <div className="h-full flex flex-col gap-3 justify-start items-center">
       <div className="flex flex-col gap-2 items-start w-72 lg:w-96 justify-between">
         <Label title="Todo" />
-        <Input
-          placeholder="Insert your todo"
-          className="w-full"
-          value={todo.title}
-          setValue={value => {
-            setTodo(prevState => {
-              return {
-                ...prevState,
-                title: value
-              };
-            });
-          }}
-        />
+        <Input placeholder="Insert your todo" className="w-full" value={todo.title} setValue={value => setValueGlobally("title", value)} />
       </div>
       <div className="flex flex-col gap-2 items-start w-72 lg:w-96 justify-between">
         <Label title="Priority" />
         <Select
           selectedOption={todo.priority as string}
-          onSelectedOptionChange={value => {
-            setTodo(prevState => {
-              return {
-                ...prevState,
-                priority: value as Priority
-              };
-            });
-          }}
+          onSelectedOptionChange={value => setValueGloballyByType("priority", value as Priority)}
           name="Priority"
           id="priority"
           className="w-full"
@@ -93,18 +90,7 @@ const CreateTodoSection = (props: Props) => {
       </div>
       <div className="flex flex-col gap-2 items-start w-72 lg:w-96 justify-between">
         <Label title="Data" />
-        <DatePicker
-          className="w-full"
-          value={todo.expireDate}
-          setValue={value => {
-            setTodo(prevState => {
-              return {
-                ...prevState,
-                expireDate: value
-              };
-            });
-          }}
-        />
+        <DatePicker className="w-full" value={todo.expireDate} setValue={value => setValueGlobally("expireDate", value)} />
       </div>
       <Button
         disabled={todo.title.trim().length >= 4 ? false : true}
