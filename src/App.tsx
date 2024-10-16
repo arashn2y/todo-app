@@ -44,15 +44,6 @@ function App() {
     setTodos(todosClone);
   };
 
-  /**
-   * Function to be called when a new todo gets added (created by the form)
-   * The newTodo has to be added to the state
-   * @param newTodo Data of the new todo
-   */
-  const handleNewTodoAdd = (newTodo: Todo): void => {
-    setTodos([...todos, newTodo]);
-  };
-
   const deleteTodo = (id: string) => {
     setTodos(prevState => {
       return prevState.filter(todo => todo.id !== id);
@@ -73,7 +64,7 @@ function App() {
       <Header title="Dashboard" />
       <h1 className="text-4xl text-center mt-3">Simple Todo List</h1>
       <main className="row-span-10 flex sm:flex-col sm:items-center md:flex-row gap-4 justify-between items-start w-4/6 max-w-[900px] mx-auto relative">
-        <CreateTodoSection onAddNewTodo={handleNewTodoAdd} todo={todo} setTodo={setTodo} />
+        <CreateTodoSection setTodos={setTodos} todo={todo} setTodo={setTodo} />
         <TodoList onStatusChange={handleChildTodoStatusChange} todoArray={todos} deleteTodo={deleteTodo} editTodo={editTodo} />
       </main>
     </div>

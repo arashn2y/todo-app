@@ -8,21 +8,42 @@ import Todo from "../../types/todo";
 import { v4 as uuid } from "uuid";
 
 interface Props {
-  // Function to call when a new todo is
-  onAddNewTodo: (newTodo: Todo) => void;
   todo: Todo;
   setTodo: React.Dispatch<React.SetStateAction<Todo>>;
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
 const CreateTodoSection = (props: Props) => {
-  const { todo, setTodo } = props;
+  const { todo, setTodo, setTodos } = props;
 
   const onCreateTodoClick = () => {
-    // Call the parent function to add the new todo to the state
-    props.onAddNewTodo({
-      ...todo,
-      id: uuid()
-    });
+    if (todo.id !== "") {
+      // update
+      setTodos(prevState => {
+        return prevState.map(todoElement => {
+          if (todoElement.id === todo.id) {
+            return {
+              ...todo
+            };
+          } else {
+            return todoElement;
+          }
+        });
+      });
+    } else {
+      // create
+      setTodos(prevState => {
+        return [
+          ...prevState,
+          {
+            ...todo,
+            id: uuid()
+          }
+        ];
+      });
+    }
+
+    //clear todo
     setTodo({
       id: "",
       title: "",
@@ -31,6 +52,8 @@ const CreateTodoSection = (props: Props) => {
       done: false
     });
   };
+
+  const setValueGlobally = (field: string, value: string) => {};
 
   return (
     <div className="h-full flex flex-col gap-3 justify-start items-center">
@@ -83,7 +106,12 @@ const CreateTodoSection = (props: Props) => {
           }}
         />
       </div>
-      <Button disabled={todo.title.trim().length >= 4 ? false : true} title="Add todo" className="w-72 lg:w-96 mt-5" onClick={onCreateTodoClick} />
+      <Button
+        disabled={todo.title.trim().length >= 4 ? false : true}
+        title={(todo.id ? "Edit " : "Add ") + "todo"}
+        className="w-72 lg:w-96 mt-5"
+        onClick={onCreateTodoClick}
+      />
     </div>
   );
 };
