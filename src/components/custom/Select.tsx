@@ -16,7 +16,7 @@ function Select(props: SelectProps) {
       name={name}
       id={id}
       value={selectedOption}
-      onChange={(event) => onSelectedOptionChange(event.target.value)}
+      onChange={event => onSelectedOptionChange(event.target.value)}
       className={"p-2 focus:outline-none focus:ring-0 focus:border-gray-300 border border-gray-300 rounded-md h-12 " + className}>
       {options.map((option, index) => {
         return (

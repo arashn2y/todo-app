@@ -30,7 +30,7 @@ function getSortedTodos(todoArray: Todo[], policyToOrder: OrderPolicy): Todo[] {
       if (expireA > expireB) return 1;
       else if (expireA < expireB) return -1;
       return 0;
-    })
+    });
   } else {
     return [...todoArray].sort((a: Todo, b: Todo): number => {
       const prioA = getPriorityNumber(a.priority);
@@ -51,33 +51,42 @@ const TodoList = (props: TodoListProps) => {
     <div className={"h-full text-center w-96 " + className}>
       <div className="flex flex-col gap-2 items-start w-96 justify-between">
         <Label title="Order by" />
-        <Select name="order-select" onSelectedOptionChange={setOrderPolicy} selectedOption={orderPolicy} id="order-select" className="w-full" options={[OrderPolicy.EXPIRE_DATE, OrderPolicy.PRIORITY]} />
+        <Select
+          name="order-select"
+          onSelectedOptionChange={setOrderPolicy}
+          selectedOption={orderPolicy}
+          id="order-select"
+          className="w-full"
+          options={[OrderPolicy.EXPIRE_DATE, OrderPolicy.PRIORITY]}
+        />
       </div>
       <div className="my-8">
-        <div className="text-m text-gray-500">
-          To be completed
-        </div>
-        <div className="w-full h-[60%] overflow-y-auto p-5 mt-8 flex flex-col space-y-7">
-          { getSortedTodos(todoArray.filter(todo => {
-            /*
+        <div className="text-m text-gray-500">To be completed</div>
+        <div className="w-full overflow-y-auto p-5 mt-8 flex flex-col space-y-7">
+          {getSortedTodos(
+            todoArray.filter(todo => {
+              /*
             if (todo.done === false) return true;
             return false; */
-            return !todo.done;
-          }), orderPolicy).map(todo => {
+              return !todo.done;
+            }),
+            orderPolicy
+          ).map(todo => {
             return <TodoItem onStatusChange={props.onStatusChange} key={todo.creationDate.toISOString()} todo={todo} />;
           })}
         </div>
       </div>
-      <div className="w-full h-[60%] overflow-y-auto p-5 mt-8 flex flex-col space-y-7">
-        <div className="text-m text-gray-500 mb-2">
-          Already done
-        </div>
-        {getSortedTodos(todoArray.filter(todo => {
-          /* Intuitive method: 
+      <div className="w-full overflow-y-auto p-5 mt-8 flex flex-col space-y-7">
+        <div className="text-m text-gray-500 mb-2">Already done</div>
+        {getSortedTodos(
+          todoArray.filter(todo => {
+            /* Intuitive method: 
           if (todo.done === true) return true;
           return false;*/
-          return todo.done;
-        }),orderPolicy).map(todo => {
+            return todo.done;
+          }),
+          orderPolicy
+        ).map(todo => {
           return <TodoItem onStatusChange={props.onStatusChange} key={todo.creationDate.toISOString()} todo={todo} />;
         })}
       </div>
