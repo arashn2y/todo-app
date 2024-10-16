@@ -19,7 +19,7 @@ function App() {
 
   /**
    * Function to handle when a todo status gets changed by the user
-   * 
+   *
    * @param creationDate Useful to uniquely identify a todo
    * @param status The new status of the todo
    */
@@ -42,21 +42,16 @@ function App() {
    * @param newTodo Data of the new todo
    */
   const handleNewTodoAdd = (newTodo: Todo): void => {
-    setTodos([...todos, newTodo])
+    setTodos([...todos, newTodo]);
   };
 
   return (
     <div className="grid grid-rows-12 h-screen">
       <Header title="Dashboard" />
       <h1 className="text-4xl text-center mt-3">Simple Todo List</h1>
-      <main className="row-span-10 flex justify-between items-start w-4/6 mx-auto relative">
-        <CreateTodoSection
-          onAddNewTodo={handleNewTodoAdd}
-        />
-        <TodoList
-          onStatusChange={handleChildTodoStatusChange}
-          todoArray={todos}
-        />
+      <main className="row-span-10 flex sm:flex-col sm:items-center md:flex-row gap-4 justify-between items-start w-4/6 max-w-[900px] mx-auto relative">
+        <CreateTodoSection onAddNewTodo={handleNewTodoAdd} />
+        <TodoList onStatusChange={handleChildTodoStatusChange} todoArray={todos} />
       </main>
     </div>
   );

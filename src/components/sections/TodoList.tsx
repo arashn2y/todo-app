@@ -48,8 +48,8 @@ const TodoList = (props: TodoListProps) => {
   const [orderPolicy, setOrderPolicy] = useState<OrderPolicy>(OrderPolicy.EXPIRE_DATE);
 
   return (
-    <div className={"h-full text-center w-96 " + className}>
-      <div className="flex flex-col gap-2 items-start w-96 justify-between">
+    <div className={"h-full text-center w-72 lg:w-96 " + className}>
+      <div className="flex flex-col gap-2 items-start w-72 lg:w-96 justify-between">
         <Label title="Order by" />
         <Select
           name="order-select"
