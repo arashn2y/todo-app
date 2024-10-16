@@ -3,6 +3,7 @@ import CreateTodoSection from "./components/sections/CreateTodoSection";
 import Header from "./components/sections/Header";
 import TodoList from "./components/sections/TodoList";
 import Todo from "./types/todo";
+import { Priority } from "./types/priorityEnum";
 
 /**
  * 1. Visualizzazione todo in 2 sezioni: una per quelli da completare
@@ -15,6 +16,13 @@ import Todo from "./types/todo";
  */
 
 function App() {
+  const [todo, setTodo] = useState<Todo>({
+    id: "",
+    title: "",
+    expireDate: new Date(),
+    priority: Priority.HIGH,
+    done: false
+  });
   const [todos, setTodos] = useState<Todo[]>([]);
 
   /**
@@ -23,11 +31,11 @@ function App() {
    * @param creationDate Useful to uniquely identify a todo
    * @param status The new status of the todo
    */
-  const handleChildTodoStatusChange = (creationDate: Date, status: boolean) => {
+  const handleChildTodoStatusChange = (id: string, status: boolean) => {
     // Create a clone of the array to edit
     let todosClone = [...todos];
     for (const todo of todosClone) {
-      if (todo.creationDate === creationDate) {
+      if (todo.id === id) {
         // This is the right element to edit
         todo.done = status;
       }
@@ -45,16 +53,19 @@ function App() {
     setTodos([...todos, newTodo]);
   };
 
-  const deleteTodo = (creationDate: Date) => {
+  const deleteTodo = (id: string) => {
     setTodos(prevState => {
-      return prevState.filter(todo => {
-        if (todo.creationDate === creationDate) {
-          return false;
-        } else {
-          return true;
-        }
-      });
+      return prevState.filter(todo => todo.id !== id);
     });
+  };
+
+  const editTodo = (id: string) => {
+    const foundTodo = todos.find(todo => todo.id === id);
+    if (foundTodo === undefined) {
+      alert("Todo not found");
+      return;
+    }
+    setTodo({ ...foundTodo });
   };
 
   return (
@@ -62,8 +73,8 @@ function App() {
       <Header title="Dashboard" />
       <h1 className="text-4xl text-center mt-3">Simple Todo List</h1>
       <main className="row-span-10 flex sm:flex-col sm:items-center md:flex-row gap-4 justify-between items-start w-4/6 max-w-[900px] mx-auto relative">
-        <CreateTodoSection onAddNewTodo={handleNewTodoAdd} />
-        <TodoList onStatusChange={handleChildTodoStatusChange} todoArray={todos} deleteTodo={deleteTodo} />
+        <CreateTodoSection onAddNewTodo={handleNewTodoAdd} todo={todo} setTodo={setTodo} />
+        <TodoList onStatusChange={handleChildTodoStatusChange} todoArray={todos} deleteTodo={deleteTodo} editTodo={editTodo} />
       </main>
     </div>
   );

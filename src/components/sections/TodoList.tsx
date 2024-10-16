@@ -11,8 +11,9 @@ interface TodoListProps {
   todoArray: Todo[];
 
   // Pass to the parent, does not actually use it
-  onStatusChange: (expireDate: Date, status: boolean) => void;
-  deleteTodo: (creationDate: Date) => void;
+  onStatusChange: (id: string, status: boolean) => void;
+  deleteTodo: (id: string) => void;
+  editTodo: (id: string) => void;
 }
 
 /**
@@ -45,7 +46,7 @@ function getSortedTodos(todoArray: Todo[], policyToOrder: OrderPolicy): Todo[] {
 }
 
 const TodoList = (props: TodoListProps) => {
-  const { className, todoArray, deleteTodo } = props;
+  const { className, todoArray, deleteTodo, editTodo } = props;
   const [orderPolicy, setOrderPolicy] = useState<OrderPolicy>(OrderPolicy.EXPIRE_DATE);
 
   return (
@@ -75,7 +76,7 @@ const TodoList = (props: TodoListProps) => {
             }),
             orderPolicy
           ).map(todo => {
-            return <TodoItem onStatusChange={props.onStatusChange} key={todo.creationDate.toISOString()} todo={todo} deleteTodo={deleteTodo} />;
+            return <TodoItem onStatusChange={props.onStatusChange} key={todo.id} todo={todo} deleteTodo={deleteTodo} editTodo={editTodo} />;
           })}
         </div>
       </div>
@@ -90,7 +91,7 @@ const TodoList = (props: TodoListProps) => {
           }),
           orderPolicy
         ).map(todo => {
-          return <TodoItem onStatusChange={props.onStatusChange} key={todo.creationDate.toISOString()} todo={todo} deleteTodo={deleteTodo} />;
+          return <TodoItem onStatusChange={props.onStatusChange} key={todo.id} todo={todo} deleteTodo={deleteTodo} editTodo={editTodo} />;
         })}
       </div>
     </div>

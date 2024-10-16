@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Input from "../custom/Input";
 import Label from "../custom/Label";
 import Select from "../custom/Select";
@@ -6,28 +5,28 @@ import { Priority } from "../../types/priorityEnum";
 import DatePicker from "../custom/DatePicker";
 import Button from "../custom/Button";
 import Todo from "../../types/todo";
+import { v4 as uuid } from "uuid";
 
 interface Props {
   // Function to call when a new todo is
   onAddNewTodo: (newTodo: Todo) => void;
+  todo: Todo;
+  setTodo: React.Dispatch<React.SetStateAction<Todo>>;
 }
 
 const CreateTodoSection = (props: Props) => {
-  const [todo, setTodo] = useState<Todo>({
-    title: "",
-    expireDate: new Date(),
-    creationDate: new Date(),
-    priority: Priority.HIGH,
-    done: false
-  });
+  const { todo, setTodo } = props;
 
   const onCreateTodoClick = () => {
     // Call the parent function to add the new todo to the state
-    props.onAddNewTodo(todo);
+    props.onAddNewTodo({
+      ...todo,
+      id: uuid()
+    });
     setTodo({
+      id: "",
       title: "",
       expireDate: new Date(),
-      creationDate: new Date(),
       priority: Priority.HIGH,
       done: false
     });
