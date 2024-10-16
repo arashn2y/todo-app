@@ -1,6 +1,6 @@
 interface DatePickerProps {
   value: Date;
-  setValue: React.Dispatch<React.SetStateAction<Date>>;
+  setValue: (value: Date) => void;
   className?: string;
 }
 

@@ -1,6 +1,6 @@
 interface InputProps {
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue: (value: string) => void;
   placeholder: string;
   className?: string;
 }

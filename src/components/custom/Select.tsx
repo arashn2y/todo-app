@@ -3,8 +3,7 @@ interface SelectProps {
   id: string;
   className?: string;
   options: string[];
-
-  onSelectedOptionChange: React.Dispatch<React.SetStateAction<any>>;
+  onSelectedOptionChange: (value: string) => void;
   selectedOption: string;
 }
 

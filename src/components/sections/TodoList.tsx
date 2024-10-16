@@ -53,7 +53,9 @@ const TodoList = (props: TodoListProps) => {
         <Label title="Order by" />
         <Select
           name="order-select"
-          onSelectedOptionChange={setOrderPolicy}
+          onSelectedOptionChange={(value: string) => {
+            setOrderPolicy(value as OrderPolicy);
+          }}
           selectedOption={orderPolicy}
           id="order-select"
           className="w-full"
