@@ -1,9 +1,9 @@
 import { useState } from "react";
-import CreateTodoSection from "./components/sections/CreateTodoSection";
-import Header from "./components/sections/Header";
-import TodoList from "./components/sections/TodoList";
-import Todo from "./types/todo";
-import { Priority } from "./types/priorityEnum";
+import CreateTodoSection from "../components/sections/CreateTodoSection";
+import Header from "../components/sections/Header";
+import TodoList from "../components/sections/TodoList";
+import Todo from "../types/todo";
+import { Priority } from "../types/priorityEnum";
 
 /**
  * 1. Visualizzazione todo in 2 sezioni: una per quelli da completare
@@ -15,7 +15,7 @@ import { Priority } from "./types/priorityEnum";
  *  --> expireDate: Date, status: boolean
  */
 
-function App() {
+function Dashboard() {
   const [todo, setTodo] = useState<Todo>({
     id: "",
     title: "",
@@ -71,4 +71,4 @@ function App() {
   );
 }
 
-export default App;
+export default Dashboard;
