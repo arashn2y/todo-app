@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "./screens/Dashboard";
 import Login from "./screens/Login";
+import ContactUs from "./screens/ContactUs";
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />
+  },
+  {
+    path: "/contact-us",
+    element: <ContactUs />
   }
 ]);
 
