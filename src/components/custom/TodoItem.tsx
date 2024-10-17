@@ -1,5 +1,6 @@
 import { IoTrashBinOutline } from "react-icons/io5";
 import { FaPencilAlt } from "react-icons/fa";
+import { FaCircleCheck as Check } from "react-icons/fa6";
 import Todo from "../../types/todo";
 import Checkbox from "./Checkbox";
 import Badge from "./Badge";
@@ -36,10 +37,14 @@ const TodoItem = (props: Props) => {
         <h1 className="font-bold text-xl">{title}</h1>
         <div className="text-gray-500">{expireDate.toLocaleDateString()}</div>
       </div>
-      <div className="flex flex-row">
-        <IoTrashBinOutline className="cursor-pointer" color="red" size={20} onClick={() => deleteTodo(id)} />
-        <FaPencilAlt className="ml-2 cursor-pointer" color="gray" size={20} onClick={() => editTodo(id)} />
-      </div>
+      {status ? (
+        <Check className="text-green-500" size={20} />
+      ) : (
+        <div className="flex flex-row">
+          <IoTrashBinOutline className="cursor-pointer" color="red" size={20} onClick={() => deleteTodo(id)} />
+          <FaPencilAlt className="ml-2 cursor-pointer" color="gray" size={20} onClick={() => editTodo(id)} />
+        </div>
+      )}
 
       <Badge priority={priority} />
     </div>

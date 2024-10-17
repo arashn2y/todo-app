@@ -96,8 +96,9 @@ const CreateTodoSection = (props: Props) => {
         disabled={todo.title.trim().length >= 4 ? false : true}
         title={(todo.id ? "Edit " : "Add ") + "todo"}
         className="w-72 lg:w-96 mt-5"
-        onClick={onCreateTodoClick}
-      />
+        onClick={onCreateTodoClick}>
+        test
+      </Button>
     </div>
   );
 };
