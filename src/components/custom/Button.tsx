@@ -1,5 +1,5 @@
 interface ButtonProps {
-  children: string;
+  children?: string;
   title: string;
   className?: string;
   onClick: () => void;
@@ -7,8 +7,7 @@ interface ButtonProps {
 }
 
 function Button(props: ButtonProps) {
-  const { title, className, onClick, disabled, children } = props;
-  console.log(children);
+  const { title, className, onClick, disabled } = props;
 
   return (
     <button
