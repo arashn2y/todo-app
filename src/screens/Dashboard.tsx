@@ -1,19 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateTodoSection from "../components/sections/CreateTodoSection";
 import Header from "../components/sections/Header";
 import TodoList from "../components/sections/TodoList";
-import Todo from "../types/todo";
+import Todo, { loadTodos, saveTodos } from "../types/todo";
 import { Priority } from "../types/priorityEnum";
-
-/**
- * 1. Visualizzazione todo in 2 sezioni: una per quelli da completare
- *  E una per quelli già completati
- * 2. Modificare componente Checkbox per fargli ricevere da fuori
- *  Il suo valore 'checked'
- * 3. Passaggio funzione onCheckboxChange da comp. App fino a TodoItem
- *  --> E' la funzione che permetterà a TodoItem di modificare lo stato globale
- *  --> expireDate: Date, status: boolean
- */
 
 function Dashboard() {
   const [todo, setTodo] = useState<Todo>({
@@ -23,7 +13,14 @@ function Dashboard() {
     priority: Priority.HIGH,
     done: false
   });
-  const [todos, setTodos] = useState<Todo[]>([]);
+
+  const [todos, setTodos] = useState<Todo[]>(loadTodos());
+
+  useEffect(() => {
+    console.log("The todo list has changed. ", todos);
+
+    saveTodos(todos);
+  }, [todos]);
 
   /**
    * Function to handle when a todo status gets changed by the user
