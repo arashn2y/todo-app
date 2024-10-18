@@ -16,22 +16,13 @@ function Login() {
   const handleLogin = () => {
     const service = new CredentialService();
 
-    /*
-    service.register({
-      email: "ciao@gmail.com",
-      password: "ciao"
-    })
-    */
-
     service.login(credentials).then(result => {
       if (result === LoginResult.SUCCESS) {
         setBadCredentials(false);
         navigate("/");
       } else {
-        console.log("Error during login");
         setBadCredentials(true);
       }
-      console.log(result);
     });
   }
 

@@ -62,12 +62,9 @@ export class CredentialService {
     let data = {...credentials};
     
     const res = await this.convertToHash(data.password);
-    console.log(data);
     data.password = res;    // ANY PASSWORD MUST ALWAYS BE HASHED
     const credentialsJson = JSON.stringify(data);
-    console.log(credentialsJson);
     const token = await this.convertToHash(credentialsJson);
-    console.log(token);
     localStorage.setItem(this.CREDENTIALS_KEY, token);
   }
 
