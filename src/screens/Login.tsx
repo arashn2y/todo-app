@@ -3,7 +3,7 @@ import Button from "../components/custom/Button";
 import Input from "../components/custom/Input";
 import Header from "../components/sections/Header";
 import Label from "../components/custom/Label";
-import { CredentialsType } from "../types/credential";
+import { CredentialService, CredentialsType } from "../types/credential";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -11,7 +11,14 @@ function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [credentials, setCredentials] = useState<CredentialsType>({ email: "", password: "" });
-  console.log(credentials);
+
+  const handleLogin = () => {
+    const service = new CredentialService();
+    
+    service.login(credentials).then(result => {
+      console.log(result);
+    });
+  }
 
   return (
     <div className="h-screen">
@@ -57,7 +64,7 @@ function Login() {
               }}
             />
           </div>
-          <Button title="Login" onClick={() => navigate("/")} />
+          <Button title="Login" onClick={handleLogin} />
         </form>
       </main>
     </div>
