@@ -3,7 +3,7 @@ import Button from "../components/custom/Button";
 import Input from "../components/custom/Input";
 import Header from "../components/sections/Header";
 import Label from "../components/custom/Label";
-import { CredentialService, CredentialsType } from "../types/credential";
+import { CredentialService, CredentialsType, LoginResult } from "../types/credential";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -11,11 +11,26 @@ function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [credentials, setCredentials] = useState<CredentialsType>({ email: "", password: "" });
+  const [badCredentials, setBadCredentials] = useState<boolean>(false);
 
   const handleLogin = () => {
     const service = new CredentialService();
-    
+
+    /*
+    service.register({
+      email: "ciao@gmail.com",
+      password: "ciao"
+    })
+    */
+
     service.login(credentials).then(result => {
+      if (result === LoginResult.SUCCESS) {
+        setBadCredentials(false);
+        navigate("/");
+      } else {
+        console.log("Error during login");
+        setBadCredentials(true);
+      }
       console.log(result);
     });
   }
@@ -28,6 +43,11 @@ function Login() {
           onSubmit={event => event.preventDefault()}
           className="flex flex-col shadow-[0_12px_20px_rgba(100,100,100,_0.3)] space-y-8 p-6 border-2 rounded-xl w-full">
           <h1 className="text-4xl text-center">Login</h1>
+          {
+            (badCredentials === true) ? 
+            <div className="text-red-500">The credentials that you inserted are wrong or the user does not exist. </div> : 
+            null
+          }
           <div className="flex flex-col space-y-2">
             <Label title="Email" />
             <Input

@@ -13,20 +13,25 @@ export enum LoginResult {
  * Class to handle the authentication
  */
 export class CredentialService {
-  private readonly CREDENTIALS_KEY = "login-data";
+  private readonly CREDENTIALS_KEY = "t0";
 
   /**
    * Attempt a login
    * @param credentials data for the login
    */
   async login(credentials: CredentialsType): Promise<LoginResult> {
-    const registeredProfile = this.loadRegisteredCredentials();
+    let credentialsClone = {...credentials};
+    const registeredToken: string | null = localStorage.getItem(this.CREDENTIALS_KEY);
 
-    if(!registeredProfile) 
+    if(!registeredToken) 
       return LoginResult.NO_REGISTERED_PROFILE;
 
-    const clientHashedPassword = await this.digestMessage(credentials.password);
-    if(registeredProfile.email === credentials.email && registeredProfile.password === clientHashedPassword) return LoginResult.SUCCESS;
+    const clientHashedPassword = await this.convertToHash(credentials.password);
+    credentialsClone.password = clientHashedPassword;
+    const clientToken = await this.convertToHash(JSON.stringify(credentialsClone));
+    
+    if(clientToken === registeredToken) 
+      return LoginResult.SUCCESS;
 
     return LoginResult.BAD_CREDENTIALS;
   }
@@ -35,6 +40,10 @@ export class CredentialService {
 
   }
 
+  /**
+   * Loads the registered user credentials
+   * @returns 
+   */
   private loadRegisteredCredentials(): CredentialsType | undefined {
     const item = localStorage.getItem(this.CREDENTIALS_KEY);
 
@@ -47,30 +56,34 @@ export class CredentialService {
 
   /**
    * Register the user that can use this application
-   * @param credentials 
+   * @param credentials credentials of the new user
    */
   async register(credentials: CredentialsType) {
     let data = {...credentials};
     
-    const res = await this.digestMessage(credentials.password);
-
+    const res = await this.convertToHash(data.password);
+    console.log(data);
     data.password = res;    // ANY PASSWORD MUST ALWAYS BE HASHED
-
-    localStorage.setItem(this.CREDENTIALS_KEY, JSON.stringify(data));
+    const credentialsJson = JSON.stringify(data);
+    console.log(credentialsJson);
+    const token = await this.convertToHash(credentialsJson);
+    console.log(token);
+    localStorage.setItem(this.CREDENTIALS_KEY, token);
   }
 
   /**
-   * Generate sha256 has for the password
-   * @param message 
-   * @returns 
+   * Generate sha256 hash for the password
+   * @param message The string to be converted
+   * @returns The SHA-256 hash HEX string
    */
-  private async digestMessage(message: string): Promise<string> {
-    const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
-    const hashBuffer = await window.crypto.subtle.digest("SHA-256", msgUint8); // hash the message
-    const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
+  private async convertToHash(message: string): Promise<string> {
+    const msgUint8 = new TextEncoder().encode(message); 
+    const hashBuffer = await window.crypto.subtle.digest("SHA-256", msgUint8); 
+    const hashArray = Array.from(new Uint8Array(hashBuffer)); 
+    // Convert binary hash to HEX string hash
     const hashHex = hashArray
       .map((b) => b.toString(16).padStart(2, "0"))
-      .join(""); // convert bytes to hex string
+      .join("");
     return hashHex;
   }
 }
