@@ -4,10 +4,11 @@ interface InputProps {
   type?: React.HTMLInputTypeAttribute;
   placeholder: string;
   className?: string;
+  isRequired?: boolean;
 }
 
 function Input(props: InputProps) {
-  const { placeholder, className, value, setValue, type } = props;
+  const { placeholder, className, value, setValue, type, isRequired } = props;
 
   return (
     <input
@@ -20,6 +21,7 @@ function Input(props: InputProps) {
         const value = event.target.value;
         setValue(value);
       }}
+      required={isRequired || false}
     />
   );
 }
